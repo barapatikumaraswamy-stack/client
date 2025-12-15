@@ -3,11 +3,13 @@ import LoginForm from "./components/Auth/LoginForm";
 import ProductPage from "./components/Products/ProductPage";
 import InventoryList from "./components/Inventory/InventoryList";
 import AdjustForm from "./components/Inventory/AdjustForm";
+import SupplierPage from "./components/Suppliers/SupplierPage";
+import AnalyticsPage from "./components/Analytics/AnalyticsPage";
 import "./App.css";
 
 function App() {
   const [user, setUser] = useState(null);
-  const [page, setPage] = useState("products"); // "products" | "inventory" | "adjust"
+  const [page, setPage] = useState("products"); // "products" | "inventory" | "adjust" | "suppliers"
 
   if (!user && !localStorage.getItem("token")) {
     return <LoginForm onLogin={setUser} />;
@@ -19,11 +21,18 @@ function App() {
   };
 
   return (
-    <div>
+    <div className="app">
       <header className="app-header">
         <h1>Store Inventory</h1>
 
+
         <nav className="app-nav">
+          <button
+  className={page === "analytics" ? "nav-btn active" : "nav-btn"}
+  onClick={() => setPage("analytics")}
+>
+  Analytics
+</button>
           <button
             className={page === "products" ? "nav-btn active" : "nav-btn"}
             onClick={() => setPage("products")}
@@ -42,6 +51,12 @@ function App() {
           >
             Adjust Stock
           </button>
+          <button
+            className={page === "suppliers" ? "nav-btn active" : "nav-btn"}
+            onClick={() => setPage("suppliers")}
+          >
+            Suppliers
+          </button>
         </nav>
 
         <button className="logout-btn" onClick={handleLogout}>
@@ -50,19 +65,14 @@ function App() {
       </header>
 
       <main className="app-main">
+        {page === "analytics" && <AnalyticsPage />}
         {page === "products" && <ProductPage />}
 
-        {page === "inventory" && (
-          <div>
-            <InventoryList />
-          </div>
-        )}
+        {page === "inventory" && <InventoryList />}
 
-        {page === "adjust" && (
-          <div>
-            <AdjustForm onAdjusted={() => {}} />
-          </div>
-        )}
+        {page === "adjust" && <AdjustForm onAdjusted={() => {}} />}
+
+        {page === "suppliers" && <SupplierPage />}
       </main>
     </div>
   );

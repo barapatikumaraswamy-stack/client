@@ -1,8 +1,9 @@
 // src/components/Products/ProductEditSheet.jsx
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../../api/client";
 
 export default function ProductEditSheet({ product, onClose, onUpdated }) {
+  const [suppliers, setSuppliers] = useState([]);
   const [values, setValues] = useState({
     name: product.name || "",
     sku: product.sku || "",
@@ -11,10 +12,24 @@ export default function ProductEditSheet({ product, onClose, onUpdated }) {
     purchasePrice: product.purchasePrice ?? "",
     salePrice: product.salePrice ?? "",
     taxRate: product.taxRate ?? 0,
-    isActive: product.isActive ? "true" : "false"
+    isActive: product.isActive ? "true" : "false",
+    supplierId: product.soldBy?._id || ""
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  // Load suppliers on mount
+  useEffect(() => {
+    const loadSuppliers = async () => {
+      try {
+        const res = await api.get("/suppliers");
+        setSuppliers(res.data);
+      } catch (err) {
+        console.error("Failed to load suppliers", err);
+      }
+    };
+    loadSuppliers();
+  }, []); // empty dependency array = runs once on mount
 
   const handleChange = (name, value) => {
     setValues(prev => ({ ...prev, [name]: value }));
@@ -39,7 +54,8 @@ export default function ProductEditSheet({ product, onClose, onUpdated }) {
         purchasePrice: Number(values.purchasePrice),
         salePrice: Number(values.salePrice),
         taxRate: values.taxRate ? Number(values.taxRate) : 0,
-        isActive: values.isActive === "true"
+        isActive: values.isActive === "true",
+        soldBy: values.supplierId || null
       });
       onUpdated?.();
       onClose();
@@ -146,6 +162,23 @@ export default function ProductEditSheet({ product, onClose, onUpdated }) {
           >
             <option value="true">Active</option>
             <option value="false">Inactive</option>
+          </select>
+        </div>
+
+        <div className="form-row">
+          <label>Supplier</label>
+          <select
+            className="form-input"
+            value={values.supplierId}
+            onChange={e => handleChange("supplierId", e.target.value)}
+            disabled={loading}
+          >
+            <option value="">None</option>
+            {suppliers.map(s => (
+              <option key={s._id} value={s._id}>
+                {s.name}
+              </option>
+            ))}
           </select>
         </div>
 
