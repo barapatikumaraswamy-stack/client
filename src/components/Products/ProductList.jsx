@@ -1,8 +1,9 @@
+// src/components/Products/ProductList.jsx
 import { useEffect, useMemo, useState } from "react";
 import api from "../../api/client";
-import ProductForm from "./ProductForm";
 import ProductTransactions from "../Transactions/ProductTransactions";
 import QuickTransactionSheet from "../Transactions/QuickTransactionSheet";
+import ProductEditSheet from "./ProductEditSheet";
 
 export default function ProductList() {
   const [products, setProducts] = useState([]);
@@ -69,6 +70,16 @@ export default function ProductList() {
         <ProductTransactions
           product={selectedProduct}
           onClose={closeSheet}
+        />
+      );
+    }
+
+    if (selectedSheet === "edit") {
+      return (
+        <ProductEditSheet
+          product={selectedProduct}
+          onClose={closeSheet}
+          onUpdated={load}
         />
       );
     }
@@ -153,7 +164,7 @@ export default function ProductList() {
                       <button
                         className="pill-btn"
                         disabled={busyId === p._id}
-                        onClick={() => openSheet(p, "adjustment")}
+                        onClick={() => openSheet(p, "edit")} // admin edit
                       >
                         Adjust
                       </button>
@@ -176,15 +187,6 @@ export default function ProductList() {
               )}
             </tbody>
           </table>
-        </div>
-      </section>
-
-      <section className="card">
-        <header className="card-header">
-          <h3>Create product</h3>
-        </header>
-        <div className="card-body">
-          <ProductForm onCreated={load} />
         </div>
       </section>
 

@@ -1,9 +1,63 @@
-/* layout */
-.page {
-  padding: 24px;
-  background: #f5f7fb;
+/* app layout */
+.app {
   min-height: 100vh;
+  background: #f5f7fb;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: #111827;
+  color: #fff;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.app-nav {
+  display: flex;
+  gap: 8px;
+}
+
+.nav-btn {
+  border-radius: 999px;
+  border: 1px solid transparent;
+  padding: 6px 12px;
+  background: transparent;
+  color: #e5e7eb;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.nav-btn.active {
+  background: #f9fafb;
+  color: #111827;
+  border-color: #e5e7eb;
+}
+
+.logout-btn {
+  border-radius: 999px;
+  border: 1px solid #f97316;
+  background: #f97316;
+  color: #fff;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.app-main {
+  padding: 24px;
+}
+
+/* page */
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .page-header {
@@ -13,9 +67,9 @@
   margin-bottom: 16px;
 }
 
-.page-header h1 {
+.page-header h2 {
   margin: 0;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .page-subtitle {
@@ -112,7 +166,7 @@
   cursor: pointer;
 }
 
-/* pills */
+/* generic pills */
 .pill {
   display: inline-flex;
   align-items: center;
@@ -138,15 +192,20 @@
   cursor: pointer;
 }
 
-.icon-btn.danger {
+.icon-btn {
   border-radius: 999px;
   border: none;
-  background: #fee2e2;
-  color: #b91c1c;
+  background: transparent;
   padding: 4px 8px;
   cursor: pointer;
 }
 
+.icon-btn.danger {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* sheet */
 .sheet {
   position: fixed;
   right: 24px;
@@ -174,7 +233,16 @@
   overflow-y: auto;
 }
 
+.sheet-table {
+  font-size: 12px;
+}
 
+.sheet-table th,
+.sheet-table td {
+  padding: 6px 4px;
+}
+
+/* tx badges / qty colors */
 .tx-actions {
   display: inline-flex;
   gap: 4px;
@@ -199,15 +267,6 @@
   background: #fee2e2;
   border-color: #ef4444;
   color: #991b1b;
-}
-
-.sheet-table {
-  font-size: 12px;
-}
-
-.sheet-table th,
-.sheet-table td {
-  padding: 6px 4px;
 }
 
 .tx-badge {
@@ -244,7 +303,7 @@
   font-weight: 500;
 }
 
-
+/* errors */
 .error-box {
   background: #fee2e2;
   border: 1px solid #fecaca;
@@ -255,6 +314,7 @@
   font-size: 12px;
 }
 
+/* colored pill buttons (reuse) */
 .pill-green {
   background: #dcfce7;
   border-color: #22c55e;
@@ -272,4 +332,6 @@
   border-color: #fbbf24;
   color: #92400e;
 }
-
+.form-wrapper {
+  margin-bottom: 16px;
+}

@@ -8,8 +8,12 @@ export default function ProductForm({ onCreated }) {
   const [formValues, setFormValues] = useState({
     name: "",
     sku: "",
-    salePrice: "",
+    barcode: "",
+    category: "",
     purchasePrice: "",
+    salePrice: "",
+    taxRate: "",
+    isActive: "true",      // as string for select
     openingQuantity: "",
     supplierId: ""
   });
@@ -40,26 +44,21 @@ export default function ProductForm({ onCreated }) {
   };
 
   const fields = [
+    { name: "name", label: "Name", type: "text" },
+    { name: "sku", label: "SKU", type: "text", readOnly: true },
+    { name: "barcode", label: "Barcode", type: "text" },
+    { name: "category", label: "Category", type: "text" },
+    { name: "purchasePrice", label: "Purchase price", type: "number" },
+    { name: "salePrice", label: "Sale price", type: "number" },
+    { name: "taxRate", label: "Tax rate (%)", type: "number" },
     {
-      name: "name",
-      label: "Name",
-      type: "text"
-    },
-    {
-      name: "sku",
-      label: "SKU",
-      type: "text",
-      readOnly: true
-    },
-    {
-      name: "salePrice",
-      label: "Sale price",
-      type: "number"
-    },
-    {
-      name: "purchasePrice",
-      label: "Purchase price",
-      type: "number"
+      name: "isActive",
+      label: "Status",
+      type: "select",
+      options: [
+        { value: "true", label: "Active" },
+        { value: "false", label: "Inactive" }
+      ]
     },
     {
       name: "openingQuantity",
@@ -96,20 +95,29 @@ export default function ProductForm({ onCreated }) {
       const body = {
         name: values.name,
         sku: values.sku,
-        salePrice: Number(values.salePrice),
+        barcode: values.barcode || undefined,
+        category: values.category || undefined,
         purchasePrice: Number(values.purchasePrice),
+        salePrice: Number(values.salePrice),
+        taxRate: values.taxRate ? Number(values.taxRate) : 0,
+        isActive: values.isActive === "true",
         soldBy: values.supplierId || null,
         openingQuantity: values.openingQuantity
           ? Number(values.openingQuantity)
           : 0
       };
+
       const res = await api.post("/products", body);
 
       setFormValues({
         name: "",
         sku: "",
-        salePrice: "",
+        barcode: "",
+        category: "",
         purchasePrice: "",
+        salePrice: "",
+        taxRate: "",
+        isActive: "true",
         openingQuantity: "",
         supplierId: ""
       });
@@ -127,7 +135,7 @@ export default function ProductForm({ onCreated }) {
       {error && <div className="error-box">{error}</div>}
 
       <FormCard
-        title="Create product"
+        title="Update Details Here"
         fields={fields}
         submitLabel={loading ? "Creating..." : "Save"}
         onSubmit={handleSubmit}
