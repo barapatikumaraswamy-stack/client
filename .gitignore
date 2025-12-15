@@ -1,0 +1,11 @@
+node_modules# dependencies
+node_modules/
+
+# env
+.env
+.env.*   # if you have multiple env files
+
+# logs (optional)
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
