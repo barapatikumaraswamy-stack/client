@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LoginForm from "./components/Auth/LoginForm";
 import ProductPage from "./components/Products/ProductPage";
 import InventoryList from "./components/Inventory/InventoryList";
@@ -9,8 +9,19 @@ import "./App.css";
 
 function App() {
   const [user, setUser] = useState(null);
-  const [page, setPage] = useState("products"); // "products" | "inventory" | "adjust" | "suppliers"
+  const [page, setPage] = useState("products");
 
+  // Check if user is logged in on mount
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      // Optionally, verify token is still valid by calling API
+      // For now, just restore user state if token exists
+      setUser(true);
+    }
+  }, []);
+
+  // If no token, show login
   if (!user && !localStorage.getItem("token")) {
     return <LoginForm onLogin={setUser} />;
   }
@@ -18,6 +29,7 @@ function App() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     setUser(null);
+    setPage("products"); // Reset page
   };
 
   return (
@@ -25,14 +37,13 @@ function App() {
       <header className="app-header">
         <h1>Store Inventory</h1>
 
-
         <nav className="app-nav">
           <button
-  className={page === "analytics" ? "nav-btn active" : "nav-btn"}
-  onClick={() => setPage("analytics")}
->
-  Analytics
-</button>
+            className={page === "analytics" ? "nav-btn active" : "nav-btn"}
+            onClick={() => setPage("analytics")}
+          >
+            Analytics
+          </button>
           <button
             className={page === "products" ? "nav-btn active" : "nav-btn"}
             onClick={() => setPage("products")}
@@ -67,11 +78,8 @@ function App() {
       <main className="app-main">
         {page === "analytics" && <AnalyticsPage />}
         {page === "products" && <ProductPage />}
-
         {page === "inventory" && <InventoryList />}
-
         {page === "adjust" && <AdjustForm onAdjusted={() => {}} />}
-
         {page === "suppliers" && <SupplierPage />}
       </main>
     </div>
