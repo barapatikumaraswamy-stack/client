@@ -3,6 +3,7 @@ import LoginForm from "./components/Auth/LoginForm";
 import ProductList from "./components/Products/ProductList";
 import InventoryList from "./components/Inventory/InventoryList";
 import AdjustForm from "./components/Inventory/AdjustForm";
+import "./App.css"
 
 function App() {
   const [user, setUser] = useState(null);

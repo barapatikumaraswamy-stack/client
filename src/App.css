@@ -1,0 +1,275 @@
+/* layout */
+.page {
+  padding: 24px;
+  background: #f5f7fb;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.page-subtitle {
+  margin: 4px 0 0;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.page-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* cards */
+.card {
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  padding: 16px 20px;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.card-body {
+  overflow-x: auto;
+}
+
+/* filters / pills */
+.filters-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.filter-pill {
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  padding: 6px 12px;
+  font-size: 12px;
+  background: #f9fafb;
+}
+
+.filter-input {
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  padding: 6px 12px;
+  font-size: 13px;
+  min-width: 220px;
+}
+
+/* table */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.data-table thead {
+  background: #f9fafb;
+}
+
+.data-table th,
+.data-table td {
+  padding: 10px 8px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+  white-space: nowrap;
+}
+
+/* quantity control */
+.qty-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  padding: 2px 6px;
+  background: #f9fafb;
+}
+
+.qty-control button {
+  border: none;
+  background: #e5e7eb;
+  border-radius: 999px;
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* pills */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 12px;
+}
+
+.pill-blue {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+/* buttons */
+.primary-btn {
+  border-radius: 999px;
+  border: none;
+  padding: 8px 16px;
+  background: #111827;
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.icon-btn.danger {
+  border-radius: 999px;
+  border: none;
+  background: #fee2e2;
+  color: #b91c1c;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.sheet {
+  position: fixed;
+  right: 24px;
+  top: 24px;
+  bottom: 24px;
+  width: 420px;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.18);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  z-index: 40;
+}
+
+.sheet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.sheet-body {
+  overflow-y: auto;
+}
+
+
+.tx-actions {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.pill-btn {
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  padding: 4px 8px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.pill-btn.pill-green {
+  background: #dcfce7;
+  border-color: #22c55e;
+  color: #166534;
+}
+
+.pill-btn.pill-red {
+  background: #fee2e2;
+  border-color: #ef4444;
+  color: #991b1b;
+}
+
+.sheet-table {
+  font-size: 12px;
+}
+
+.sheet-table th,
+.sheet-table td {
+  padding: 6px 4px;
+}
+
+.tx-badge {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.tx-purchase {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.tx-sale {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.tx-adjustment {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.qty-positive {
+  color: #22c55e;
+  font-weight: 500;
+}
+
+.qty-negative {
+  color: #ef4444;
+  font-weight: 500;
+}
+
+
+.error-box {
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  color: #991b1b;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  font-size: 12px;
+}
+
+.pill-green {
+  background: #dcfce7;
+  border-color: #22c55e;
+  color: #166534;
+}
+
+.pill-red {
+  background: #fee2e2;
+  border-color: #ef4444;
+  color: #991b1b;
+}
+
+.pill-yellow {
+  background: #fef3c7;
+  border-color: #fbbf24;
+  color: #92400e;
+}
+

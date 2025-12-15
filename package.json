@@ -1,5 +1,31 @@
 {
   "dependencies": {
-    "react": "^19.2.3"
-  }
+    "@vitejs/plugin-react": "^5.1.2",
+    "axios": "^1.13.2",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "vite": "^7.2.7"
+  },
+  "name": "client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/barapatikumaraswamy-stack/client.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/barapatikumaraswamy-stack/client/issues"
+  },
+  "homepage": "https://github.com/barapatikumaraswamy-stack/client#readme"
 }

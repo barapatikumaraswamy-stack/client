@@ -1,87 +1,140 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import api from "../../api/client";
+import FormCard from "../common/FormCard";
 
 export default function ProductForm({ onCreated }) {
-  const [name, setName] = useState("");
-  const [sku, setSku] = useState("");
-  const [salePrice, setSalePrice] = useState("");
-  const [purchasePrice, setPurchasePrice] = useState("");
-  const [openingQuantity, setOpeningQuantity] = useState("");
-  const [supplierId, setSupplierId] = useState("");
   const [suppliers, setSuppliers] = useState([]);
   const [error, setError] = useState("");
+  const [formValues, setFormValues] = useState({
+    name: "",
+    sku: "",
+    salePrice: "",
+    purchasePrice: "",
+    openingQuantity: "",
+    supplierId: ""
+  });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    api.get("/suppliers").then(res => setSuppliers(res.data)).catch(() => {});
+    api
+      .get("/suppliers")
+      .then(res => setSuppliers(res.data))
+      .catch(() => {});
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const generateSku = (name) => {
+    return name
+      .trim()
+      .toUpperCase()
+      .replace(/\s+/g, "_");
+  };
+
+  const handleFieldChange = (name, value) => {
+    setFormValues(prev => {
+      const updated = { ...prev, [name]: value };
+      if (name === "name") {
+        updated.sku = generateSku(value);
+      }
+      return updated;
+    });
+  };
+
+  const fields = [
+    {
+      name: "name",
+      label: "Name",
+      type: "text"
+    },
+    {
+      name: "sku",
+      label: "SKU",
+      type: "text",
+      readOnly: true
+    },
+    {
+      name: "salePrice",
+      label: "Sale price",
+      type: "number"
+    },
+    {
+      name: "purchasePrice",
+      label: "Purchase price",
+      type: "number"
+    },
+    {
+      name: "openingQuantity",
+      label: "Opening quantity",
+      type: "number"
+    },
+    {
+      name: "supplierId",
+      label: "Supplier",
+      type: "select",
+      placeholder: "None",
+      options: suppliers.map(s => ({ value: s._id, label: s.name }))
+    }
+  ];
+
+  const handleSubmit = async (values) => {
     setError("");
+
+    if (!values.name.trim()) {
+      setError("Product name is required");
+      return;
+    }
+    if (!values.salePrice || Number(values.salePrice) <= 0) {
+      setError("Sale price must be greater than 0");
+      return;
+    }
+    if (!values.purchasePrice || Number(values.purchasePrice) <= 0) {
+      setError("Purchase price must be greater than 0");
+      return;
+    }
+
+    setLoading(true);
     try {
       const body = {
-        name,
-        sku,
-        salePrice: Number(salePrice),
-        purchasePrice: Number(purchasePrice),
-        soldBy: supplierId || null,
-        openingQuantity: openingQuantity ? Number(openingQuantity) : 0,
+        name: values.name,
+        sku: values.sku,
+        salePrice: Number(values.salePrice),
+        purchasePrice: Number(values.purchasePrice),
+        soldBy: values.supplierId || null,
+        openingQuantity: values.openingQuantity
+          ? Number(values.openingQuantity)
+          : 0
       };
       const res = await api.post("/products", body);
+
+      setFormValues({
+        name: "",
+        sku: "",
+        salePrice: "",
+        purchasePrice: "",
+        openingQuantity: "",
+        supplierId: ""
+      });
+
       onCreated(res.data);
-      setName("");
-      setSku("");
-      setSalePrice("");
-      setPurchasePrice("");
-      setOpeningQuantity("");
-      setSupplierId("");
     } catch (err) {
       setError(err.response?.data?.message || "Create failed");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h3>Create product</h3>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <div>
-        <label>Name</label>
-        <input value={name} onChange={e => setName(e.target.value)} required />
-      </div>
-      <div>
-        <label>SKU</label>
-        <input value={sku} onChange={e => setSku(e.target.value)} required />
-      </div>
-      <div>
-        <label>Sale price</label>
-        <input type="number"
-               value={salePrice}
-               onChange={e => setSalePrice(e.target.value)}
-               required />
-      </div>
-      <div>
-        <label>Purchase price</label>
-        <input type="number"
-               value={purchasePrice}
-               onChange={e => setPurchasePrice(e.target.value)}
-               required />
-      </div>
-      <div>
-        <label>Opening quantity</label>
-        <input type="number"
-               value={openingQuantity}
-               onChange={e => setOpeningQuantity(e.target.value)} />
-      </div>
-      <div>
-        <label>Supplier</label>
-        <select value={supplierId} onChange={e => setSupplierId(e.target.value)}>
-          <option value="">None</option>
-          {suppliers.map(s => (
-            <option key={s._id} value={s._id}>{s.name}</option>
-          ))}
-        </select>
-      </div>
-      <button type="submit">Save</button>
-    </form>
+    <>
+      {error && <div className="error-box">{error}</div>}
+
+      <FormCard
+        title="Create product"
+        fields={fields}
+        submitLabel={loading ? "Creating..." : "Save"}
+        onSubmit={handleSubmit}
+        onFieldChange={handleFieldChange}
+        values={formValues}
+        disabled={loading}
+      />
+    </>
   );
 }
